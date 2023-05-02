@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shelve extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['block_id', 'name'];
 }
+

@@ -27,7 +27,8 @@ class BlockSeeder extends Seeder
         ];
 
         foreach ($blocks as $block){
-            Block::create($block);
+            Block::create($block
+            );
         }
     }
 }

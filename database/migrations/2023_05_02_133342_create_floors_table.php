@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('floors', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('shelve_id');
-            $table->string('name');
+            $table->integer('name');
 
             $table->foreign('shelve_id')->references('id')->on('shelves')->cascadeOnDelete();
 
