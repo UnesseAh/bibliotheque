@@ -5,10 +5,10 @@
             <a href="" class="list-group-item list-group-item-action py-2 ripple">
                 <i class="fa-solid fa-book me-3"></i><span>Books</span>
             </a>
-            <a href="" class="list-group-item list-group-item-action py-2 ripple">
+            <a href="{{ route('authors.index') }}" class="list-group-item list-group-item-action py-2 ripple">
                 <i class="fa-solid fa-user me-3"></i><span>Authors</span>
             </a>
-            <a href="" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+            <a href="{{ route('show.blocks') }}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                 <i class="fa-solid fa-square-full me-3"></i><span>Blocks</span>
             </a>
             <a href="" class="list-group-item list-group-item-action py-2 ripple">

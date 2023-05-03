@@ -4,82 +4,118 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $authors = Author::all();
+        return view('authors.authors', compact('authors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('authors.create-authors');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|max:255|regex:/^[^0-9]*$/',
+            'last_name' => 'required|max:255|regex:/^[^0-9]*$/',
+            'age' => 'required|integer|min:1|max:100',
+            'country' => 'required|max:255|regex:/^[^0-9]*$/',
+            'image' => 'required|mimes:jpeg,png,jpg,gif'
+        ],[
+            'first_name.regex' => 'First name must not contain any digits',
+            'last_name.regex' => 'Last name must not contain any digits',
+            'age.digits_between' => 'Age must be between 1 and 100',
+            'country' => 'Country must not contain any digits',
+            'image.mimes' => 'Image must be of type jpeg, png, jpg, or gif only',
+        ]);
+
+        if($validator->fails()){
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validatedData = $validator->validated();
+
+        if($image = $request->file('image')){
+            $image->move('image/' , $image->getClientOriginalName());
+            $validatedData['image'] = $image->getClientOriginalName();
+        }
+
+        Author::create($validatedData);
+
+        $firstName = $request->get('first_name');
+        $lastName  = $request->get('last_name');
+
+        return \redirect()->route('authors.index')->with('added', 'Author "' . $firstName . ' '. $lastName . '" added successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
     public function show(Author $author)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Author $author)
     {
-        //
+
+        return view('authors.edit-authors', compact('author'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Author $author)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|max:255|regex:/^[^0-9]*$/',
+            'last_name' => 'required|max:255|regex:/^[^0-9]*$/',
+            'age' => 'required|integer|min:1|max:100',
+            'country' => 'required|max:255|regex:/^[^0-9]*$/',
+        ],[
+            'first_name.regex' => 'First name must not contain any digits',
+            'last_name.regex' => 'Last name must not contain any digits',
+            'age.digits_between' => 'Age must be between 1 and 100',
+            'country' => 'Country must not contain any digits',
+        ]);
+
+        if($validator->fails()){
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validatedData = $validator->validated();
+
+        if($image = $request->file('image')){
+            $image->move('image/', $image->getClientOriginalName());
+            $validatedData['image'] = $image->getClientOriginalName();
+        }else {
+            unset($validatedData['image']);
+        }
+
+        $author->update($validatedData);
+
+        $firstName = $request->get('first_name');
+        $lastName = $request->get('last_name');
+
+        return redirect()->route('authors.index')->with('updated', 'Author "' . $firstName . ' ' . $lastName . '" updated successfully!');
+
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Author $author)
     {
-        //
+        $firstName = $author->first_name;
+        $lastName = $author->last_name;
+
+        $author->delete();
+
+        return Redirect::back()->with('deleted', 'Author "' . $firstName . ' ' . $lastName . '" deleted successfully!');
     }
 }

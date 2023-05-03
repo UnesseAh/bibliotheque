@@ -8,7 +8,7 @@
 
         <!-- Brand -->
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/logo-blue.png') }}" height="25" alt="MDB Logo" loading="lazy"/>
+            <img src="{{ asset('image/logo-blue.png') }}" height="25" alt="MDB Logo" loading="lazy"/>
         </a>
 
 
@@ -23,7 +23,7 @@
             <!-- Avatar -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ asset('images/profile.png') }}" class="rounded-circle" height="22" alt="Avatar" loading="lazy"/>
+                    <img src="{{ asset('image/profile.png') }}" class="rounded-circle" height="22" alt="Avatar" loading="lazy"/>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li>

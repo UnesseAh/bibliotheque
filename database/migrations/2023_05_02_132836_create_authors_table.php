@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->integer('age');
             $table->string('country');
+            $table->string('image');
             $table->timestamps();
         });
     }
