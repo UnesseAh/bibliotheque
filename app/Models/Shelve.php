@@ -10,5 +10,7 @@ class Shelve extends Model
     use HasFactory;
 
     protected $fillable = ['block_id', 'name'];
+
+
 }
 

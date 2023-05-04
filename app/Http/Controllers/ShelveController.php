@@ -2,84 +2,101 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Block;
 use App\Models\Shelve;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use League\CommonMark\Extension\CommonMark\Node\Block\HtmlBlock;
 
 class ShelveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $shelves = Shelve::orderBy('id', 'DESC')->get();
+
+        return view('shelves.shelves', compact('shelves'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $blocks = Block::all();
+
+        return view('shelves.create-shelve', compact('blocks'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'block_id' => 'required',
+            'name' => 'required|max:255|regex:/^[^0-9]*$/'
+        ],[
+            'name.regex' => 'The :attribute field must not contain any numeric characters.'
+        ]);
+
+        if($validator->fails()){
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $validatedData = $validator->validated();
+
+        Shelve::create($validatedData);
+
+        $shelveName = $request->name;
+
+        return redirect()->route('shelves.index')->with('added', 'Shelve ' . $shelveName . ' added successfully!');
+
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Author $author)
+
+    public function show(Shelve $shelve)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Author $author)
+    public function edit($id)
     {
-        //
+        $blocks = Block::all();
+        $shelve = Shelve::find($id);
+
+        return view('shelves.edit-shelve', ['shelve' => $shelve], ['blocks' => $blocks]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'block_id' => 'required',
+            'name' => 'required|max:255|regex:/^[^0-9]*$/'
+        ],[
+            'name.regex' => 'The :attribute field must not contain any numeric characters.'
+        ]);
+
+        if($validator->fails()){
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validatedData = $validator->validated();
+        $shelve = Shelve::find($id);
+        $shelve->update($validatedData);
+
+        return Redirect::route('shelves.index')->with('updated', 'Shelve updated successfully!');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Author $author)
+
+    public function destroy($id)
     {
-        //
+        $shelve = Shelve::find($id);
+        $shelveName = $shelve->name;
+        $shelve->delete();
+        return Redirect::back()->with('deleted', 'Shelve ' . $shelveName . ' deleted successfully');
     }
 }

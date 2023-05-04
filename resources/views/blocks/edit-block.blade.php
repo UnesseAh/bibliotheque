@@ -7,7 +7,7 @@
 <div class="container w-25" style="margin-top: 6rem">
     <div class="card h-150 d-fex ">
         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-            <img src="{{ asset('images/block.jpg') }}" class="img-fluid"/>
+            <img src="{{ asset('image/block.jpg') }}" class="img-fluid"/>
         </div>
         <div class="card-body p-0 py-4">
         <form action="{{ route('update.block', $block)}}" method="POST">

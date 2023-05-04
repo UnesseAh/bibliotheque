@@ -11,7 +11,7 @@
             <a href="{{ route('show.blocks') }}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                 <i class="fa-solid fa-square-full me-3"></i><span>Blocks</span>
             </a>
-            <a href="" class="list-group-item list-group-item-action py-2 ripple">
+            <a href="{{ route('shelves.index') }}" class="list-group-item list-group-item-action py-2 ripple">
                 <i class="fa-solid fa-bars me-3"></i><span>Shelves</span>
             </a>
             <a href="" class="list-group-item list-group-item-action py-2 ripple">
