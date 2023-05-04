@@ -2,7 +2,7 @@
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-3 mt-4">
-            <a href="" class="list-group-item list-group-item-action py-2 ripple">
+            <a href="{{ route('books.index') }}" class="list-group-item list-group-item-action py-2 ripple">
                 <i class="fa-solid fa-book me-3"></i><span>Books</span>
             </a>
             <a href="{{ route('authors.index') }}" class="list-group-item list-group-item-action py-2 ripple">

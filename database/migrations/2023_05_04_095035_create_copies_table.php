@@ -13,12 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('barcodes', function (Blueprint $table) {
+        Schema::create('copies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('book_id');
-            $table->string('name');
+            $table->string('barcode');
+            $table->unsignedBigInteger('block_id');
+            $table->unsignedBigInteger('shelve_id');
+            $table->unsignedBigInteger('floor_id');
 
             $table->foreign('book_id')->references('id')->on('books')->cascadeOnDelete();
+            $table->foreign('block_id')->references('id')->on('blocks')->cascadeOnDelete();
+            $table->foreign('shelve_id')->references('id')->on('shelves')->cascadeOnDelete();
+            $table->foreign('floor_id')->references('id')->on('floors')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -30,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barcodes');
+        Schema::dropIfExists('copies');
     }
 };

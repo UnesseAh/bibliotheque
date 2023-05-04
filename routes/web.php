@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BlockController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\ShelveController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,8 @@ Route::controller(BlockController::class)->group(function (){
 Route::resource('authors', AuthorController::class);
 
 Route::resource('shelves', ShelveController::class);
+
+Route::resource('books', BookController::class);
 
 
 

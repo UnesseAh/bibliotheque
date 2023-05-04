@@ -7,8 +7,6 @@ use App\Models\Shelve;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use League\CommonMark\Extension\CommonMark\Node\Block\HtmlBlock;
 
 class ShelveController extends Controller
 {
@@ -84,6 +82,7 @@ class ShelveController extends Controller
         }
 
         $validatedData = $validator->validated();
+
         $shelve = Shelve::find($id);
         $shelve->update($validatedData);
 
@@ -95,6 +94,7 @@ class ShelveController extends Controller
     public function destroy($id)
     {
         $shelve = Shelve::find($id);
+
         $shelveName = $shelve->name;
         $shelve->delete();
         return Redirect::back()->with('deleted', 'Shelve ' . $shelveName . ' deleted successfully');

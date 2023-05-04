@@ -59,6 +59,10 @@
                 @if($errors->has('image'))
                     <p class="text-danger small mb-2">{{ $errors->first('image') }}</p>
                 @endif
+
+                <div class="text-center m-2 p-2" style="outline: 1px solid black; outline-style: dashed">
+                    <img src="{{ asset('image/' . $author->image) }}" alt="" class="w-25 rounded">
+                </div>
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-outline-warning btn-block">
                     Update Authors
